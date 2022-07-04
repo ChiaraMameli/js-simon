@@ -1,0 +1,8 @@
+#numbers-box {
+    margin: 50px auto;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+}
