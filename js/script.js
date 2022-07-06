@@ -1,33 +1,75 @@
 // Variabili di partenza
-const display = document.getElementById('numbers-box');
-const result = document.getElementById('result');
-let numbers = [];
-let playerNumbers = [];
+const displayNumbers = document.getElementById('list');
+const countdown = document.getElementById('countdown');
+const min = 1;
+const max = 100;
+const totalNumbers = 5;
+let time = 30;
 
-// Produco 5 numeri casuali
-const produceUniqueNumbers = (min, max, array) => {
-    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-    if(!(array.includes(randomNumber))) {
-        array.push(randomNumber)  
-    } else {    
-       randomNumber
+// Genero una funzione che produce 5 numeri casuali
+const produceUniqueNumbers = (min, max, tot) => {
+    let numbers = [];
+    while(numbers.length < tot) {
+        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+        if(!numbers.includes(randomNumber)) numbers.push(randomNumber)  
     }
+    return numbers
 }
 
-// Stampo 5 numeri in
-for (let i = 0; i < 5; i++) {
-    produceUniqueNumbers(1, 30, numbers);
-}
-display.innerText = numbers;
+// Genero una funzione per recuperare i numeri dall'utente
 
-// Funzione per chiedere all'utente di inserire i numeri con propmt
-const askingPlayer = () => {
-for (let i = 0; i < 5; i++) {
-    let playerNumber = prompt('Inserisci qui il numero');
-    if(numbers.includes(parseInt(playerNumber))) playerNumbers.push(playerNumber)
-}}
+const getPlayerNumber = (min, max) => {
+    let playerNumber;
+    while(isNaN(playerNumber) || playerNumber < min || playerNumber > max){
+        playerNumber = parseInt(prompt('Inserisci qui il numero'));
+    }
+    return playerNumber
+}
+    
+const numbers = produceUniqueNumbers(min, max, totalNumbers);
+console.log(numbers)
+
+// Stampo 5 numeri in pagina
+let listElement = '';
+
+for (let i = 0; i < totalNumbers; i++) {
+    listElement += `<li>${numbers[i]}</li>`;
+}
+
+displayNumbers.innerHTML = listElement;
+
+
+// Mostro il timer
+
+const timer = setInterval(() => {
+    if(time === 0) clearInterval(timer);
+    countdown.innerText = --time
+}, 1000);
+
+// Faccio sparire i numeri dopo 30 secondi
+
+setTimeout(() => {
+    displayNumbers.className = 'd-none';
+    countdown.className = 'd-none';
+}, 30000);
 
 // Faccio partire i prompt dopo 30 secondi dall'avvio della pagina
-const time = setTimeout(askingPlayer, 10000);
-time;
-console.log(numbers, playerNumbers);
+let playerNumbers = [];
+setTimeout(() => {
+
+while(playerNumbers.length < totalNumbers) {
+    const playerNumber = getPlayerNumber(min, max);
+    if(!playerNumbers.includes(playerNumber)) playerNumbers.push(playerNumber)
+}
+
+// Conto i punti
+// Inserisco in un array i numeri che l'utente ha ricordato e gli comunico quali ha indovinato
+let correctAnswer = [];
+
+for(let i = 0; i < totalNumbers; i++) {
+    if(numbers.includes(playerNumbers[i])) correctAnswer.push(playerNumbers[i]);
+}
+
+alert(`Hai totalizzato ${correctAnswer.length}! I numeri che hai indovinato sono: ${correctAnswer}`)
+
+}, 30200);

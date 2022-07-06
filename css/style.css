@@ -1,8 +1,19 @@
-#numbers-box {
+#list {
+    list-style-type: none;
     margin: 50px auto;
     height: 50px;
     border: 1px solid black;
     border-radius: 10px;
     font-size: 30px;
     text-align: center;
+}
+
+#countdown {
+    padding-top: 50px;
+    font-size: 80px;
+    font-weight: 800;
+}
+
+#result {
+    font-size: 20px;
 }
